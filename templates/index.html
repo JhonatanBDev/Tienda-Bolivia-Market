@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos - BoliviaMarket</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts (opcional para un mejor diseño) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar-brand img {
+            width: 32px;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .card-text {
+            font-size: 0.95rem;
+        }
+        footer {
+            background-color: #212529;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="data:image/jpeg;base64,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" alt="Logo" class="me-2">
+                <strong>BoliviaMarket</strong>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item d-flex align-items-center me-3 text-white">
+                            Bienvenido, <strong class="ms-1">{{ current_user.username }}</strong>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a href="{{ url_for('productos.lista_productos') }}" class="btn btn-outline-light">Lista de Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light">Cerrar Sesión</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item me-2">
+                            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('auth.registro') }}" class="btn btn-outline-light">Registrarse</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="container my-5">
+        <h1 class="mb-5 text-center text-primary fw-bold">Productos Disponibles</h1>
+
+        <div class="row g-4">
+            {% for producto in productos %}
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="{{ producto.imagen }}" class="card-img-top" alt="Imagen de {{ producto.nombre }}" style="object-fit: cover; height: 200px;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-dark">{{ producto.nombre }}</h5>
+                            <p class="card-text text-muted">{{ producto.descripcion }}</p>
+                            <p class="card-text text-success fw-semibold mt-auto">$ {{ producto.precio }}</p>
+                            <a href="{{ url_for('productos.detalle_producto', id=producto.id) }}" class="btn btn-outline-primary mt-2">Ver Detalle</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-warning text-center" role="alert">
+                        No hay productos disponibles por el momento.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-white text-center py-4 mt-auto">
+        <div class="container">
+            <small>&copy; {{ current_year }} BoliviaMarket - Todos los derechos reservados.</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

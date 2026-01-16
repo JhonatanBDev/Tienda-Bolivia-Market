@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pago del Producto</title>
+    <!-- Componente PayPal buttons -->
+    <script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID&components=buttons&currency=USD"></script>
+</head>
+<body>
+<div class="container py-5">
+    <h2>Pago de: {{ item.producto.nombre }}</h2>
+    <p><strong>Total:</strong> ${{ item.cantidad * item.producto.precio }}</p>
+
+    <div id="paypal-button-container"></div>
+</div>
+
+<script>
+    const total = '{{ "%.2f"|format(item.cantidad * item.producto.precio) }}';
+
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: { value: total }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                window.location.href = "{{ url_for('carrito.confirmar_pago_individual', id=item.id) }}";
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+</body>
+</html>

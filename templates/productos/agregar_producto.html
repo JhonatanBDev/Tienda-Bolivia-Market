@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Producto</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-4 shadow" style="width: 100%; max-width: 500px;">
+            <h1 class="text-center mb-4">Agregar nuevo producto</h1>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio" class="form-label">Precio (Bs)</label>
+                    <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
+                </div>
+
+                 
+                   <div class="mb-3">
+                        <label for="categoria_id" class="form-label">Categoría</label>
+                          <select class="form-select" id="categoria_id" name="categoria_id" required>
+                           <option value="" disabled selected>Selecciona una categoría</option>
+                            {% for cat in categorias %}
+                                <option value="{{ cat.id }}">{{ cat.nombre }}</option>
+                            {% endfor %}
+                         </select>
+                    </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen (URL)</label>
+                    <input type="text" class="form-control" id="imagen" name="imagen">
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Guardar</button>
+            </form>
+
+            <div class="text-center mt-3">
+                <a href="{{ url_for('productos.lista_productos') }}" class="btn btn-link">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (opcional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

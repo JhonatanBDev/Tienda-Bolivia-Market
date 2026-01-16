@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comentarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="mb-4">Comentarios de los usuarios</h1>
+
+        {% if comentarios %}
+            <ul class="list-group">
+                {% for comentario in comentarios %}
+                    <li class="list-group-item">
+                        <strong>Producto:</strong> {{ comentario.producto.nombre }}<br>
+                        <strong>Usuario:</strong> {{ comentario.usuario.username }}<br>
+                        <small class="text-muted">Publicado el {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                        <p class="mt-2">{{ comentario.contenido }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay comentarios disponibles.</p>
+        {% endif %}
+
+        <a href="{{ url_for('productos.lista_productos') }}" class="btn btn-secondary mt-4">← Volver a productos</a>
+    </div>
+</body>
+</html>

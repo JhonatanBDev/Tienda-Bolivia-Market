@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos - BoliviaMarket</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fuente opcional para mejor presentación -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .btn-sm {
+            font-size: 0.85rem;
+        }
+
+        .img-thumbnail {
+            max-height: 160px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="container py-5">
+
+        <!-- Mensaje de bienvenida -->
+        <div class="mb-4 text-center text-md-start">
+            <p class="fs-5 mb-0">👋 Bienvenido a <strong>BoliviaMarket</strong>, <span class="text-primary">{{ usuario.username }}</span></p>
+        </div>
+
+        <!-- Encabezado y botones -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+            <h1 class="fw-bold mb-0 text-secondary">🛒 Lista de Productos</h1>
+
+            <div class="d-flex flex-wrap gap-2">
+                {% if current_user.is_authenticated and current_user.rol == 'admin' %}
+                    <a href="{{ url_for('usuarios.lista_usuarios') }}" class="btn btn-outline-warning">👥 Usuarios</a>
+                    <a href="{{ url_for('categorias.lista_categoria') }}" class="btn btn-outline-warning">📂 Categorías</a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('mensaje.bandeja_entrada') }}" class="btn btn-outline-secondary">📨 Contactar Proveedores</a>
+                    <a href="{{ url_for('usuarios.mis_compras', id=current_user.id) }}" class="btn btn-outline-success">📦 Mis Compras</a>
+                    <a href="{{ url_for('favoritos.ver_favoritos') }}" class="btn btn-outline-success">❤️ Favoritos</a>
+                    <a href="{{ url_for('productos.agregar_producto') }}" class="btn btn-success">📤 Vender</a>
+                    <a href="{{ url_for('carrito.ver_carrito') }}" class="btn btn-primary">🛒 Carrito</a>
+                    <a href="{{ url_for('usuarios.editar_usuario', id=usuario.id) }}" class="btn btn-info">✏️ Editar Perfil</a>
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">🔒 Cerrar Sesión</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lista de productos -->
+        {% for producto in productos %}
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center">
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen }}" alt="Imagen del producto" class="img-thumbnail me-md-4 mb-3 mb-md-0 rounded-3">
+                        {% endif %}
+
+                        <div class="flex-grow-1">
+                            <h4 class="card-title">{{ producto.nombre }}</h4>
+                            <p class="card-text">{{ producto.descripcion }}</p>
+
+                            {% if producto.categoria %}
+                                <p class="card-text"><strong>Categoría:</strong> {{ producto.categoria.nombre }}</p>
+                            {% else %}
+                                <p class="card-text text-muted">Sin categoría asignada</p>
+                            {% endif %}
+
+                            <p class="card-text text-success fs-5"><strong>Precio:</strong> Bs {{ producto.precio }}</p>
+
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                <a href="{{ url_for('productos.detalle_producto', id=producto.id) }}" class="btn btn-primary btn-sm">🔍 Ver Detalle</a>
+
+                                <form method="POST" action="{{ url_for('favoritos.agregar_favorito') }}" class="d-inline">
+                                    <input type="hidden" name="producto_id" value="{{ producto.id }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">❤️ Agregar a Favoritos</button>
+                                </form>
+
+                                {% if current_user.is_authenticated and producto.usuario_id == current_user.id %}
+                                    <a href="{{ url_for('productos.editar_producto', id=producto.id) }}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                                    <form method="POST" action="{{ url_for('productos.eliminar_producto', id=producto.id) }}" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm">🗑️ Eliminar</button>
+                                    </form>
+                                {% endif %}
+
+                                <a href="{{ url_for('carrito.agregar_al_carrito', producto_id=producto.id) }}" class="btn btn-success btn-sm">🛒 Añadir al Carrito</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">No hay productos disponibles por el momento.</div>
+        {% endfor %}
+
+        <!-- Volver al inicio -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('productos.ver_productos') }}" class="btn btn-link">← Volver al inicio</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

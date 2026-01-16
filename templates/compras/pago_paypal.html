@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pago con PayPal</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+</head>
+<body>
+<div class="container py-5">
+    <h2>Confirmar pago con PayPal</h2>
+
+    {% set total = 0 %}
+    {% for compra in compras %}
+        {% set total = total + (compra.cantidad * compra.producto.precio) %}
+    {% endfor %}
+
+    <p>Total a pagar: <strong>${{ total }}</strong></p>
+
+    <div id="paypal-button-container"></div>
+</div>
+
+<script>
+    const total = '{{ "%.2f"|format(total) }}';  // 👈 Asegura formato decimal
+
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: total
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                window.location.href = "{{ url_for('carrito.confirmar_pago') }}";
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+</body>
+</html>
